@@ -276,7 +276,7 @@ function buildFallbackReply(question: string, firstName: string) {
     return `Your balance is safe, ${firstName}. Check Wallet for the current review stage; once it clears, your payout moves forward.`;
   }
 
-  if (/(refund|charge|billing|payment|cancel|37|37.12)/.test(text)) {
+  if (/(refund|charge|billing|payment|cancel|37|37.44)/.test(text)) {
     return `Don't worry, ${firstName}. Your request stays saved; check the Refund tab for its latest status.`;
   }
 
