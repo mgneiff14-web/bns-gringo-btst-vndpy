@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Usage Validation - Balance Released</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #fdf2f7, #fee2e2, #e0f2fe);
+    background-size: 200% 200%;
+    animation: auroraShift 12s ease-in-out infinite;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  @keyframes auroraShift {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* drifting mote field behind the panel */
+  .ambient-layer {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  @keyframes shellReveal {
+    from {
+      opacity: 0;
+      transform: translateY(18px) scale(.97);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .review-shell {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .08);
+    padding: 24px 20px 22px;
+    position: relative;
+    z-index: 1;
+    animation: shellReveal .4s ease-out;
+  }
+
+  .brand-mark {
+    display: block;
+    width: 120px;
+    height: auto;
+    margin: 0 auto 31px auto;
+  }
+
+  .review-title {
+    font-size: 22px;
+    line-height: 1.3;
+    color: #111827;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+
+  .title-accent {
+    color: #f43f5e;
+  }
+
+  .review-lead {
+    font-size: 14px;
+    color: #4b5563;
+    text-align: left;
+    margin-bottom: 18px;
+  }
+
+  /* activity readout */
+  .metric-panel {
+    background: #f9fafb;
+    border-radius: 16px;
+    padding: 14px 12px 10px;
+    margin-bottom: 16px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .metric-panel-head {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #22c55e;
+  }
+
+  .metric-row {
+    margin-bottom: 10px;
+  }
+
+  .metric-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .metric-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .metric-name {
+    font-size: 13px;
+    color: #374151;
+  }
+
+  .metric-count {
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  .metric-count.is-complete {
+    color: #16a34a;
+    font-weight: 600;
+  }
+
+  .track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .track-level {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #f43f5e, #ec4899);
+    transition: width .25s ease-out;
+  }
+
+  .status-line {
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+    margin: 10px 0 14px;
+    min-height: 18px;
+  }
+
+  @keyframes actionBob {
+    0% {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(244, 63, 94, .35);
+    }
+
+    50% {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 32px rgba(244, 63, 94, .5);
+    }
+
+    100% {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(244, 63, 94, .35);
+    }
+  }
+
+  .unlock-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 999px;
+    padding: 13px 16px;
+    background: #f43f5e;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(244, 63, 94, .4);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .12s, box-shadow .12s, opacity .12s;
+    margin-top: 4px;
+  }
+
+  .unlock-action.is-ready {
+    opacity: 1;
+    pointer-events: auto;
+    animation: actionBob 2.4s ease-in-out infinite;
+  }
+
+  .unlock-action:hover {
+    animation: none;
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(244, 63, 94, .55);
+  }
+
+  .action-glyph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footnote {
+    font-size: 11px;
+    color: #9ca3af;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* handoff screen shown while the account syncs */
+  .handoff-screen {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 9999;
+  }
+
+  .handoff-ring {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 6px solid rgba(0, 0, 0, 0.06);
+    border-top-color: #00f2ea;
+    border-right-color: #ff0050;
+    animation: ringSpin 1s linear infinite;
+    margin-bottom: 18px;
+  }
+
+  .handoff-caption {
+    font-size: 14px;
+    color: #111827;
+    opacity: .7;
+  }
+
+  @keyframes ringSpin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width:480px) {
+    .review-shell {
+      padding: 20px 16px 18px;
+    }
+
+    .review-title {
+      font-size: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<canvas class="ambient-layer" id="ambientLayer"></canvas>
+
+<main class="review-shell">
+  <header>
+    <img class="brand-mark" src="/assets/tiktok-logo-full-BWCPYanr.png" alt="TikTok">
+
+    <h1 class="review-title">
+      You have met every
+      <span class="title-accent">activity requirement.</span>
+    </h1>
+
+    <p class="review-lead">
+      We confirmed that your account met the minimum usage requirements. Check the summary below and tap to release
+      your progress.
+    </p>
+  </header>
+
+  <section class="metric-panel" id="metricPanel">
+    <p class="metric-panel-head">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      Your activity details
+    </p>
+
+    <!-- Videos watched 50/50 -->
+    <div class="metric-row" data-goal="50">
+      <div class="metric-row-head">
+        <span class="metric-name">Videos watched</span>
+        <span class="metric-count">0/50</span>
+      </div>
+      <div class="track">
+        <div class="track-level"></div>
+      </div>
+    </div>
+
+    <!-- Time on platform 1000/1000 -->
+    <div class="metric-row" data-goal="1000">
+      <div class="metric-row-head">
+        <span class="metric-name">Time active on the platform</span>
+        <span class="metric-count">0/1000</span>
+      </div>
+      <div class="track">
+        <div class="track-level"></div>
+      </div>
+    </div>
+
+    <!-- Videos liked 100/100 -->
+    <div class="metric-row" data-goal="100">
+      <div class="metric-row-head">
+        <span class="metric-name">Videos liked</span>
+        <span class="metric-count">0/100</span>
+      </div>
+      <div class="track">
+        <div class="track-level"></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="status-line" id="statusLine">
+    Reviewing the videos you watched...
+  </p>
+
+  <button class="unlock-action" id="unlockAction" type="button">
+    <span class="action-glyph">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"></path>
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
+        <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"></path>
+      </svg>
+    </span>
+    Release my progress
+  </button>
+
+  <p class="footnote">
+    The data above is generated automatically from your recent activity on the platform.
+  </p>
+</main>
+
+<div class="handoff-screen" id="handoffScreen">
+  <div class="handoff-ring"></div>
+  <p class="handoff-caption">Syncing with your account...</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- activity readout ---------- */
+  var HANDOFF_TARGET = "/inicio";
+  var TICK_MS = 40;
+  var ROW_GAP_MS = 400;
+  var HANDOFF_MS = 3000;
+
+  var metricRows = Array.prototype.slice.call(document.querySelectorAll(".metric-row"));
+  var statusEl = document.getElementById("statusLine");
+  var actionEl = document.getElementById("unlockAction");
+
+  var phaseCopy = [
+    "Reviewing the videos you watched...",
+    "Checking your active time on the platform...",
+    "Verifying your interactions (likes)...",
+    "All set! Your usage has been validated. Tap to release your progress."
+  ];
+
+  function stepFor(goal) {
+    if (goal > 600) return 40;
+    if (goal > 200) return 20;
+    return 1;
+  }
+
+  function runMetric(position) {
+    var row = metricRows[position];
+    var goal = parseInt(row.getAttribute("data-goal"), 10);
+    var countEl = row.querySelector(".metric-count");
+    var levelEl = row.querySelector(".track-level");
+    var increment = stepFor(goal);
+    var tally = 0;
+
+    statusEl.textContent = phaseCopy[position] || "";
+
+    var timer = setInterval(function () {
+      tally += increment;
+      if (tally >= goal) tally = goal;
+
+      countEl.textContent = tally + "/" + goal;
+      levelEl.style.width = Math.min(100, (tally / goal) * 100) + "%";
+
+      if (tally < goal) return;
+
+      clearInterval(timer);
+      countEl.classList.add("is-complete");
+
+      if (position < metricRows.length - 1) {
+        setTimeout(function () {
+          runMetric(position + 1);
+        }, ROW_GAP_MS);
+        return;
+      }
+
+      statusEl.textContent = phaseCopy[3];
+      actionEl.classList.add("is-ready");
+    }, TICK_MS);
+  }
+
+  runMetric(0);
+
+  /* ---------- handoff into the app ---------- */
+  function beginHandoff() {
+    document.getElementById("handoffScreen").style.display = "flex";
+    setTimeout(function () {
+      // Carry utm/ttclid/ttp forward - the checkout tracking depends on them.
+      window.location.href = HANDOFF_TARGET + window.location.search + window.location.hash;
+    }, HANDOFF_MS);
+  }
+
+  actionEl.addEventListener("click", beginHandoff);
+
+  /* ---------- drifting mote field ---------- */
+  var surface = document.getElementById("ambientLayer");
+  var paint = surface.getContext("2d");
+  var motes = [];
+  var viewW = window.innerWidth;
+  var viewH = window.innerHeight;
+
+  function fitSurface() {
+    viewW = window.innerWidth;
+    viewH = window.innerHeight;
+    var density = window.devicePixelRatio || 1;
+    surface.width = viewW * density;
+    surface.height = viewH * density;
+    paint.setTransform(density, 0, 0, density, 0, 0);
+  }
+
+  function seedMotes(total) {
+    var tones = [
+      { r: 244, g: 63, b: 94 },
+      { r: 56, g: 189, b: 248 },
+      { r: 248, g: 250, b: 252 }
+    ];
+
+    motes = [];
+    for (var i = 0; i < total; i++) {
+      motes.push({
+        x: Math.random() * viewW,
+        y: Math.random() * viewH,
+        r: 2 + Math.random() * 3.5,
+        speedY: 0.25 + Math.random() * 0.6,
+        speedX: (Math.random() - 0.5) * 0.4,
+        alpha: 0.4 + Math.random() * 0.4,
+        tone: tones[Math.floor(Math.random() * tones.length)]
+      });
+    }
+  }
+
+  function renderMotes() {
+    paint.clearRect(0, 0, viewW, viewH);
+
+    for (var i = 0; i < motes.length; i++) {
+      var mote = motes[i];
+
+      paint.beginPath();
+      paint.arc(mote.x, mote.y, mote.r, 0, Math.PI * 2);
+      paint.fillStyle = "rgba(" + mote.tone.r + "," + mote.tone.g + "," + mote.tone.b + "," + mote.alpha + ")";
+      paint.fill();
+
+      mote.y += mote.speedY;
+      mote.x += mote.speedX;
+
+      if (mote.y - mote.r > viewH) {
+        mote.y = -mote.r;
+        mote.x = Math.random() * viewW;
+      }
+      if (mote.x < -10) mote.x = viewW + 10;
+      if (mote.x > viewW + 10) mote.x = -10;
+    }
+
+    requestAnimationFrame(renderMotes);
+  }
+
+  window.addEventListener("resize", function () {
+    fitSurface();
+    seedMotes(45);
+  });
+
+  fitSurface();
+  seedMotes(45);
+  renderMotes();
+})();
+</script>
+
+</body>
+</html>
