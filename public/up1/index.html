@@ -23,11 +23,13 @@
   <!-- Legacy upsell pixel retained alongside the new global pixel -->
   <script>
   (function (w) {
-    var pixelId = "D9K1G33C77U820ARO52G";
+    var pixelIds = ["D9K1G33C77U820ARO52G", "DA9GQORC77UBPDTVIUH0"];
     var ttq = w.ttq;
     if (!ttq || typeof ttq.load !== "function") return;
-    ttq.load(pixelId);
-    ttq.instance(pixelId).page();
+    for (var i = 0; i < pixelIds.length; i++) {
+      ttq.load(pixelIds[i]);
+      ttq.instance(pixelIds[i]).page();
+    }
   })(window);
   </script>
 

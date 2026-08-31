@@ -3,7 +3,8 @@
   if (w.self !== w.top || w.__tiktokPixelLoaded) return;
   w.__tiktokPixelLoaded = true;
 
-  var PIXEL_ID = "D9K1G33C77U820ARO52G";
+  // Add further pixels here — ttq is multi-pixel, and the ttq.page() below covers every entry.
+  var PIXEL_IDS = ["D9K1G33C77U820ARO52G", "DA9GQORC77UBPDTVIUH0"];
 
   w.TiktokAnalyticsObject = t;
   var ttq = (w[t] = w[t] || []);
@@ -60,7 +61,9 @@
     firstScript.parentNode.insertBefore(script, firstScript);
   };
 
-  ttq.load(PIXEL_ID);
+  for (var p = 0; p < PIXEL_IDS.length; p++) {
+    ttq.load(PIXEL_IDS[p]);
+  }
 
   // /up1 immediately redirects to its standalone document, which fires the real PageView.
   if (w.location.pathname !== "/up1") ttq.page();
