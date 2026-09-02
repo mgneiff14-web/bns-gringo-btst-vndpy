@@ -290,6 +290,10 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
         <script
+          src="https://cdn.jsdelivr.net/gh/xTracky/static@latest/utm-handler.js"
+          data-token="7b722ff5-853f-4e18-a3e1-d68281d42f96"
+        />
+        <script
           src="https://cdn.utmify.com.br/scripts/utms/latest.js"
           data-utmify-prevent-xcod-sck=""
           data-utmify-prevent-subids=""
