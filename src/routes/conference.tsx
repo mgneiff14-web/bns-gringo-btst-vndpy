@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 
-export const Route = createFileRoute("/validation")({
+export const Route = createFileRoute("/conference")({
   head: () => ({
     meta: [
       { title: "Usage Validation - Balance Released" },
@@ -9,13 +9,13 @@ export const Route = createFileRoute("/validation")({
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
-  component: ValidationRedirect,
+  component: ConferenceRedirect,
 });
 
-function ValidationRedirect() {
+function ConferenceRedirect() {
   useEffect(() => {
     window.location.replace(
-      `/validation/index.html${window.location.search}${window.location.hash}`,
+      `/conference/index.html${window.location.search}${window.location.hash}`,
     );
   }, []);
 

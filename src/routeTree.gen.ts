@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CheckRouteImport } from './routes/check'
+import { Route as ConferenceRouteImport } from './routes/conference'
 import { Route as ConfirmarSaqueRouteImport } from './routes/confirmar-saque'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesbloquearSaqueRouteImport } from './routes/desbloquear-saque'
@@ -32,7 +33,6 @@ import { Route as Upsell2RouteImport } from './routes/upsell-2'
 import { Route as Upsell3RouteImport } from './routes/upsell-3'
 import { Route as Upsell4RouteImport } from './routes/upsell-4'
 import { Route as Upsell5RouteImport } from './routes/upsell-5'
-import { Route as ValidationRouteImport } from './routes/validation'
 import { Route as ApiPublicCheckPixStatusRouteImport } from './routes/api/public/check-pix-status'
 import { Route as ApiPublicCreatePixPaymentRouteImport } from './routes/api/public/create-pix-payment'
 import { Route as ApiPublicDigistoreWebhookRouteImport } from './routes/api/public/digistore-webhook'
@@ -53,6 +53,11 @@ const AdminRoute = AdminRouteImport.update({
 const CheckRoute = CheckRouteImport.update({
   id: '/check',
   path: '/check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConferenceRoute = ConferenceRouteImport.update({
+  id: '/conference',
+  path: '/conference',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfirmarSaqueRoute = ConfirmarSaqueRouteImport.update({
@@ -155,11 +160,6 @@ const Upsell5Route = Upsell5RouteImport.update({
   path: '/upsell-5',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ValidationRoute = ValidationRouteImport.update({
-  id: '/validation',
-  path: '/validation',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicCheckPixStatusRoute = ApiPublicCheckPixStatusRouteImport.update({
   id: '/api/public/check-pix-status',
   path: '/api/public/check-pix-status',
@@ -198,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/check': typeof CheckRoute
+  '/conference': typeof ConferenceRoute
   '/confirmar-saque': typeof ConfirmarSaqueRoute
   '/contact': typeof ContactRoute
   '/desbloquear-saque': typeof DesbloquearSaqueRoute
@@ -218,7 +219,6 @@ export interface FileRoutesByFullPath {
   '/upsell-3': typeof Upsell3Route
   '/upsell-4': typeof Upsell4Route
   '/upsell-5': typeof Upsell5Route
-  '/validation': typeof ValidationRoute
   '/api/public/check-pix-status': typeof ApiPublicCheckPixStatusRoute
   '/api/public/create-pix-payment': typeof ApiPublicCreatePixPaymentRoute
   '/api/public/digistore-webhook': typeof ApiPublicDigistoreWebhookRoute
@@ -230,6 +230,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/check': typeof CheckRoute
+  '/conference': typeof ConferenceRoute
   '/confirmar-saque': typeof ConfirmarSaqueRoute
   '/contact': typeof ContactRoute
   '/desbloquear-saque': typeof DesbloquearSaqueRoute
@@ -250,7 +251,6 @@ export interface FileRoutesByTo {
   '/upsell-3': typeof Upsell3Route
   '/upsell-4': typeof Upsell4Route
   '/upsell-5': typeof Upsell5Route
-  '/validation': typeof ValidationRoute
   '/api/public/check-pix-status': typeof ApiPublicCheckPixStatusRoute
   '/api/public/create-pix-payment': typeof ApiPublicCreatePixPaymentRoute
   '/api/public/digistore-webhook': typeof ApiPublicDigistoreWebhookRoute
@@ -263,6 +263,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/check': typeof CheckRoute
+  '/conference': typeof ConferenceRoute
   '/confirmar-saque': typeof ConfirmarSaqueRoute
   '/contact': typeof ContactRoute
   '/desbloquear-saque': typeof DesbloquearSaqueRoute
@@ -283,7 +284,6 @@ export interface FileRoutesById {
   '/upsell-3': typeof Upsell3Route
   '/upsell-4': typeof Upsell4Route
   '/upsell-5': typeof Upsell5Route
-  '/validation': typeof ValidationRoute
   '/api/public/check-pix-status': typeof ApiPublicCheckPixStatusRoute
   '/api/public/create-pix-payment': typeof ApiPublicCreatePixPaymentRoute
   '/api/public/digistore-webhook': typeof ApiPublicDigistoreWebhookRoute
@@ -297,6 +297,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/check'
+    | '/conference'
     | '/confirmar-saque'
     | '/contact'
     | '/desbloquear-saque'
@@ -317,7 +318,6 @@ export interface FileRouteTypes {
     | '/upsell-3'
     | '/upsell-4'
     | '/upsell-5'
-    | '/validation'
     | '/api/public/check-pix-status'
     | '/api/public/create-pix-payment'
     | '/api/public/digistore-webhook'
@@ -329,6 +329,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/check'
+    | '/conference'
     | '/confirmar-saque'
     | '/contact'
     | '/desbloquear-saque'
@@ -349,7 +350,6 @@ export interface FileRouteTypes {
     | '/upsell-3'
     | '/upsell-4'
     | '/upsell-5'
-    | '/validation'
     | '/api/public/check-pix-status'
     | '/api/public/create-pix-payment'
     | '/api/public/digistore-webhook'
@@ -361,6 +361,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/check'
+    | '/conference'
     | '/confirmar-saque'
     | '/contact'
     | '/desbloquear-saque'
@@ -381,7 +382,6 @@ export interface FileRouteTypes {
     | '/upsell-3'
     | '/upsell-4'
     | '/upsell-5'
-    | '/validation'
     | '/api/public/check-pix-status'
     | '/api/public/create-pix-payment'
     | '/api/public/digistore-webhook'
@@ -394,6 +394,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   CheckRoute: typeof CheckRoute
+  ConferenceRoute: typeof ConferenceRoute
   ConfirmarSaqueRoute: typeof ConfirmarSaqueRoute
   ContactRoute: typeof ContactRoute
   DesbloquearSaqueRoute: typeof DesbloquearSaqueRoute
@@ -414,7 +415,6 @@ export interface RootRouteChildren {
   Upsell3Route: typeof Upsell3Route
   Upsell4Route: typeof Upsell4Route
   Upsell5Route: typeof Upsell5Route
-  ValidationRoute: typeof ValidationRoute
   ApiPublicCheckPixStatusRoute: typeof ApiPublicCheckPixStatusRoute
   ApiPublicCreatePixPaymentRoute: typeof ApiPublicCreatePixPaymentRoute
   ApiPublicDigistoreWebhookRoute: typeof ApiPublicDigistoreWebhookRoute
@@ -444,6 +444,13 @@ declare module '@tanstack/react-router' {
       path: '/check'
       fullPath: '/check'
       preLoaderRoute: typeof CheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conference': {
+      id: '/conference'
+      path: '/conference'
+      fullPath: '/conference'
+      preLoaderRoute: typeof ConferenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confirmar-saque': {
@@ -586,13 +593,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Upsell5RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/validation': {
-      id: '/validation'
-      path: '/validation'
-      fullPath: '/validation'
-      preLoaderRoute: typeof ValidationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/check-pix-status': {
       id: '/api/public/check-pix-status'
       path: '/api/public/check-pix-status'
@@ -642,6 +642,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   CheckRoute: CheckRoute,
+  ConferenceRoute: ConferenceRoute,
   ConfirmarSaqueRoute: ConfirmarSaqueRoute,
   ContactRoute: ContactRoute,
   DesbloquearSaqueRoute: DesbloquearSaqueRoute,
@@ -662,7 +663,6 @@ const rootRouteChildren: RootRouteChildren = {
   Upsell3Route: Upsell3Route,
   Upsell4Route: Upsell4Route,
   Upsell5Route: Upsell5Route,
-  ValidationRoute: ValidationRoute,
   ApiPublicCheckPixStatusRoute: ApiPublicCheckPixStatusRoute,
   ApiPublicCreatePixPaymentRoute: ApiPublicCreatePixPaymentRoute,
   ApiPublicDigistoreWebhookRoute: ApiPublicDigistoreWebhookRoute,
