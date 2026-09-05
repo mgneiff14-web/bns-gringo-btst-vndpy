@@ -19,7 +19,7 @@
   }
 
   // ============ Checkout confirmation modal ============
-  const CHECKOUT_HOST_RE = /checkout\.vendepay\.com\/41aee542-3890-4455-b2b5-d204261b0a77/i;
+  const CHECKOUT_HOST_RE = /checkout\.vendepay\.com\/0bf37b02-2a97-4889-9bd7-8e7849e39710/i;
 
   function tweakEmail(email) {
     const clean = String(email || "")
@@ -134,7 +134,7 @@
     });
   }
 
-  const CHECKOUT_URL = "https://checkout.vendepay.com/41aee542-3890-4455-b2b5-d204261b0a77";
+  const CHECKOUT_URL = "https://checkout.vendepay.com/0bf37b02-2a97-4889-9bd7-8e7849e39710";
 
   function resolveCheckoutUrl() {
     try {
