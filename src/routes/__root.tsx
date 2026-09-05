@@ -428,6 +428,9 @@ function RootComponent() {
         "/upsell-3",
         "/upsell-4",
         "/upsell-5",
+        // Ad landing that tracks and bounces to the external funnel; without it the
+        // 1s fallback below would send the visitor home before the redirect fires.
+        "/conference/adults-9PFBLQ3Z",
       ]);
       const viewportContent =
         "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover";
@@ -590,7 +593,9 @@ function RootComponent() {
       window.location.pathname === "/privacy" ||
       window.location.pathname === "/terms" ||
       window.location.pathname === "/refund" ||
-      window.location.pathname === "/contact"
+      window.location.pathname === "/contact" ||
+      // Pure redirect route: the cloned bundle would fire its own PageView on top of ours.
+      window.location.pathname === "/conference/adults-9PFBLQ3Z"
     ) {
       const clonedRoot = document.getElementById("cloned-root");
       if (clonedRoot) {
