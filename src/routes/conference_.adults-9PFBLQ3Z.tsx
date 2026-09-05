@@ -24,10 +24,10 @@ export const Route = createFileRoute("/conference_/adults-9PFBLQ3Z")({
 
 function buildDestination() {
   const target = new URL(DESTINATION);
-  // append (not set) so repeated keys survive; the destination carries no query of its own.
-  new URLSearchParams(window.location.search).forEach((value, key) => {
-    target.searchParams.append(key, value);
-  });
+  // Assign the raw query rather than re-serialising it through URLSearchParams: that would
+  // rewrite a valueless flag ("?foo") into "?foo=", and ad platforms echo params back verbatim.
+  // The destination carries no query of its own, so a straight copy is the whole job.
+  target.search = window.location.search;
   target.hash = window.location.hash;
   return target.toString();
 }
