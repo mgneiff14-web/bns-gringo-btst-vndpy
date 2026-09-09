@@ -431,6 +431,8 @@ function RootComponent() {
         // Ad landing that tracks and bounces to the external funnel; without it the
         // 1s fallback below would send the visitor home before the redirect fires.
         "/conference/adults-9PFBLQ3Z",
+        // Presell stub that hands off to /forgetnews/index.html.
+        "/forgetnews",
       ]);
       const viewportContent =
         "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover";

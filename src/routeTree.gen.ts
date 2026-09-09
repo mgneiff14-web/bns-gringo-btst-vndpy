@@ -17,6 +17,7 @@ import { Route as ConfirmarSaqueRouteImport } from './routes/confirmar-saque'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DesbloquearSaqueRouteImport } from './routes/desbloquear-saque'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as ForgetnewsRouteImport } from './routes/forgetnews'
 import { Route as HistoricoRouteImport } from './routes/historico'
 import { Route as InicioRouteImport } from './routes/inicio'
 import { Route as LandingpageRouteImport } from './routes/landingpage'
@@ -79,6 +80,11 @@ const DesbloquearSaqueRoute = DesbloquearSaqueRouteImport.update({
 const FaqRoute = FaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgetnewsRoute = ForgetnewsRouteImport.update({
+  id: '/forgetnews',
+  path: '/forgetnews',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoricoRoute = HistoricoRouteImport.update({
@@ -210,6 +216,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/desbloquear-saque': typeof DesbloquearSaqueRoute
   '/faq': typeof FaqRoute
+  '/forgetnews': typeof ForgetnewsRoute
   '/historico': typeof HistoricoRoute
   '/inicio': typeof InicioRoute
   '/landingpage': typeof LandingpageRoute
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/desbloquear-saque': typeof DesbloquearSaqueRoute
   '/faq': typeof FaqRoute
+  '/forgetnews': typeof ForgetnewsRoute
   '/historico': typeof HistoricoRoute
   '/inicio': typeof InicioRoute
   '/landingpage': typeof LandingpageRoute
@@ -277,6 +285,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/desbloquear-saque': typeof DesbloquearSaqueRoute
   '/faq': typeof FaqRoute
+  '/forgetnews': typeof ForgetnewsRoute
   '/historico': typeof HistoricoRoute
   '/inicio': typeof InicioRoute
   '/landingpage': typeof LandingpageRoute
@@ -312,6 +321,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/desbloquear-saque'
     | '/faq'
+    | '/forgetnews'
     | '/historico'
     | '/inicio'
     | '/landingpage'
@@ -345,6 +355,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/desbloquear-saque'
     | '/faq'
+    | '/forgetnews'
     | '/historico'
     | '/inicio'
     | '/landingpage'
@@ -378,6 +389,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/desbloquear-saque'
     | '/faq'
+    | '/forgetnews'
     | '/historico'
     | '/inicio'
     | '/landingpage'
@@ -412,6 +424,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DesbloquearSaqueRoute: typeof DesbloquearSaqueRoute
   FaqRoute: typeof FaqRoute
+  ForgetnewsRoute: typeof ForgetnewsRoute
   HistoricoRoute: typeof HistoricoRoute
   InicioRoute: typeof InicioRoute
   LandingpageRoute: typeof LandingpageRoute
@@ -493,6 +506,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgetnews': {
+      id: '/forgetnews'
+      path: '/forgetnews'
+      fullPath: '/forgetnews'
+      preLoaderRoute: typeof ForgetnewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/historico': {
@@ -668,6 +688,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DesbloquearSaqueRoute: DesbloquearSaqueRoute,
   FaqRoute: FaqRoute,
+  ForgetnewsRoute: ForgetnewsRoute,
   HistoricoRoute: HistoricoRoute,
   InicioRoute: InicioRoute,
   LandingpageRoute: LandingpageRoute,
