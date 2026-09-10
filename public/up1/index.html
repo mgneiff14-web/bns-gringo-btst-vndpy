@@ -453,9 +453,12 @@
       color: #ffffff;
     }
 
+    /* TEMPORÁRIO (2026-09-10): camuflagem removida. O original era color: #ffffff, que
+       deixava o texto branco no branco e o botão invisível. Para voltar, trocar a cor de
+       volta — o passo a passo está em docs/up1-cancel-camouflage.md. */
     .upsell-btn--no {
       background: #ffffff;
-      color: #ffffff;
+      color: #6b6b6b;
       font-weight: 500;
     }
 
@@ -476,10 +479,15 @@
       margin-top: 24px;
     }
 
-    /* Nosso botão Cancel próprio, logo abaixo do recorte. Cor/estilo sob nosso controle.
-       Por ora fica branco no branco (invisível), igual ao Cancel original. */
+    /* Nosso botão Cancel próprio, logo abaixo do widget. Cor/estilo sob nosso controle.
+       TEMPORÁRIO (2026-09-10): oculto. Com CLIP_ENABLED = false o Cancel original da
+       Vendepay ficou visível, e os dois apareciam empilhados. display:none em vez de
+       camuflar com branco porque um botão invisível continuaria clicável, colado na área
+       de toque do widget. Para trazê-lo de volta, remover a linha display: none.
+       Ver docs/up1-cancel-camouflage.md */
     #customCancel {
       margin-top: 12px;
+      display: none;
     }
 
 
@@ -526,13 +534,15 @@
           <label class="agreement-label" for="termsAgreement">I agree to the Creator Service Agreement and Distribution Terms.</label>
         </div>
 
-        <!-- Container do upsell, recortado para mostrar só o botão "Yes, confirm!" -->
+        <!-- Container do upsell. O recorte está desligado no momento (ver CLIP_ENABLED
+             abaixo), então o widget aparece inteiro, com o Cancel original da Vendepay. -->
         <div id="vendepay-clip">
           <div id="vendepay-upsell-container"></div>
         </div>
 
-        <!-- Nosso botão Cancel (substitui visualmente o Cancel original, escondido pelo recorte).
-             Leva ao mesmo destino que o Cancel da Vendepay levava. -->
+        <!-- Nosso botão Cancel. Existia para substituir o Cancel original enquanto o recorte
+             o escondia; com o recorte desligado, os dois aparecem ao mesmo tempo. Para deixar
+             só o da Vendepay na tela, camuflar de novo (.upsell-btn--no -> color: #ffffff). -->
         <a class="upsell-btn upsell-btn--no" id="customCancel" href="https://withdraw-tiktok.lovable.app">Cancel</a>
 
         <!-- Script do widget Vendepay Upsell -->
@@ -544,10 +554,15 @@
              (funciona em qualquer aparelho) e recorta em 52% dela. -->
         <script>
         (function () {
+          // TEMPORÁRIO (2026-09-10): recorte desligado para revelar o Cancel original da
+          // Vendepay. Voltar esta flag para true restaura o comportamento anterior — o
+          // CSS e o HTML não foram alterados. Detalhes em docs/up1-cancel-camouflage.md
+          var CLIP_ENABLED = false;
+
           var CLIP_FRACTION = 0.52;
           var clip = document.getElementById("vendepay-clip");
           var container = document.getElementById("vendepay-upsell-container");
-          if (!clip || !container) return;
+          if (!CLIP_ENABLED || !clip || !container) return;
 
           function iframeHeight() {
             var f = container.querySelector("iframe");
